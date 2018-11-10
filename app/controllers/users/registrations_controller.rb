@@ -19,14 +19,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
       redirect_to edit_user_registration_path(@user)
     else
       flash[:notice] = "登録できませんでした"
-      redirect_back(fallback_location: root_path)
     end
   end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+    @user = User.create(user_params)
+  end
 
   # PUT /resource
   # def update
@@ -68,4 +67,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  
+  private
+    def user_params
+        params.require(:user).permit([:user][:first_name], [:user][:family_name], [:user][:middle_name], [:user][:gender], [:user][:nationality], [:user][:lang_jp], [:user][:residence_country], [:user][:hobby]).merge(user_id: current_user.id)
+      end
+    
+  protected
+    def after_sign_up_path_for(resource)
+       edit_user_registration_path
+    end
+  
+    def after_inactive_sign_up_path_for(resource)
+      edit_user_registration_path
+    end
+   
+    def after_update_path_for(resource)
+      edit_user_registration_path
+    end
+
 end

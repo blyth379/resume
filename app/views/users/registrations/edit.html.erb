@@ -2,6 +2,29 @@
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
+  
+  <%= f.text_field :first_name, placeholder: 'First Name' %>
+  <%= f.text_field :family_name, placeholder: 'Fmaily Name' %>
+  <%= f.text_field :middle_name, placeholder: 'Middle Name' %>
+  <%= f.select :gender, ["F", "M", "O"], prompt: 'Gender' %>
+  <%= f.country_select :nationality, prompt: 'Nationality' %>
+  <%= f.country_select :residence_country, prompt: 'Residence Country' %>
+  
+  <div class="select_box">
+  <select id='langlists' name='user[langlist]' multiple size="5">
+   <%= @langlists.each do |l| %>
+    <option value="<%= l.id %>"><%= l.lang_jp %></option>
+   <% end %>
+  </select>
+  </div>
+
+<%= f.text_area :hobby, placeholder: 'hobby' %>
+<%= f.submit %>
+<% end %>
+<% else %>
+<%= "sdfasfasdfasdfasf" %>
+<% end %>
+  
 
   <div class="field">
     <%= f.label :email %><br />
