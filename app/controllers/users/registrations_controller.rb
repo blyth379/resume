@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :configure_sign_up_params, only: [:create]
+  # before_action :configure_sign_up_params, only: :create
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -11,7 +11,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    logger.debug("------------------------- cusomaize #{params[:user][:email]}")
+    # logger.debug("------------------------- cusomaize #{params[:email]}")
+    super
     @user = User.new(email: params[:user][:email],
                      password: params[:user][:password])
     if @user.save
@@ -23,14 +24,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # GET /resource/edit
-  def edit
-    @user = User.create(user_params)
-  end
-
-  # PUT /resource
-  # def update
+  # def edit
   #   super
   # end
+
+  # PUT /resource
+  def update
+    super
+      @user = User.create(user_params)
+  end
 
   # DELETE /resource
   # def destroy
@@ -70,8 +72,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   private
     def user_params
-        params.require(:user).permit([:user][:first_name], [:user][:family_name], [:user][:middle_name], [:user][:gender], [:user][:nationality], [:user][:lang_jp], [:user][:residence_country], [:user][:hobby]).merge(user_id: current_user.id)
-      end
+        params.require(:user).permit(:first_name, :family_name, :middle_name, :gender, :nationality, :lang_jp, :residence_country, :hobby).merge(user_id: current_user.id)
+    end
     
   protected
     def after_sign_up_path_for(resource)
